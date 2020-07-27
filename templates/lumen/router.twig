@@ -1,0 +1,11 @@
+<?php
+{% for table in db.tables %}
+Route::group(['prefix' => '{{ table.name | camel }}'], function()
+{
+  Route::get('/', '{{ table.name | camel }}Controller@index');
+  Route::post('/', '{{ table.name | camel }}Controller@add');
+  Route::put('/', '{{ table.name | camel }}Controller@edit');
+  Route::get('/{id}', '{{ table.name | camel }}Controller@one');
+  Route::delete('/{id}', '{{ table.name | camel }}Controller@delete');
+});
+{% endfor %}

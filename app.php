@@ -36,6 +36,10 @@ $twig->addFilter($filter);
 $camelfilter = new Twig_SimpleFilter('camel', function ($string) {
     $result = '';
     $arr = explode('_', $string);
+    if (count($arr) >= 2) {
+        unset($arr[0]);
+    }
+
     foreach ($arr as $str) {
         if(strlen($str) > 2){
             $result .= strtoupper($str[0]) . substr($str, 1, strlen($str) - 1 );
@@ -126,6 +130,39 @@ $test_valueFilter = new Twig_SimpleFilter('test_value', function ($column) {
     return $value;
 });
 $twig->addFilter($test_valueFilter);
+
+$sqlDataTyeToPhpFilter = new Twig_SimpleFilter('toPHP', function ($dataType) {
+    $type = '';
+    switch(strtoupper($dataType)){
+        case 'CHAR':
+        case 'VARCHAR':
+        case 'TINYTEXT':
+        case 'TEXT':
+        case 'MEDIUMTEXT':
+        case 'LONGTEXT':
+        case 'ENUM':
+        case 'DATETIME':
+        case 'TIME':
+        case 'YEAR':
+            $type = 'string';
+            break;
+        case 'TINYINT':
+        case 'SMALLINT':
+        case 'MEDIUMINT':
+        case 'INT':
+        case 'TIMESTAMP':
+        case 'BIGINT':
+        case 'FLOAT':
+        case 'DOUBLE':
+        case 'DECIMAL':
+            $type = 'integer';
+            break;
+    }
+
+    return $type;
+});
+
+$twig->addFilter($sqlDataTyeToPhpFilter);
 
 $dbName = Capsule::connection()->getDatabaseName();
 $db = new DB($dbName);

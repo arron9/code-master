@@ -1,0 +1,10 @@
+<?php
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Traits\RESTActions;
+
+class ChannelController extends Controller {
+    const MODEL = "App\Models\{{ table.name | camel }}";
+    use RESTActions;
+}

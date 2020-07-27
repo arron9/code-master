@@ -1,0 +1,6 @@
+{% for table in db.tables %}
+{% set data = {'table': table, 'db' : db} %}
+{{ render('lumen/controller.twig', data, "#{db.name}/controller/#{table.name|camel}Controller.php")}}
+{{ render('lumen/model.twig', data, "#{db.name}/model/#{table.name|camel}.php")}}
+{{ render('lumen/router.twig', {'db':db}, "#{db.name}/router.php")}}
+{% endfor %}
